@@ -1,5 +1,9 @@
 import axios from 'axios';
-const api = axios.create({ baseURL: 'http://localhost:4000/api' });
+
+const api = axios.create({
+  baseURL: process.env.REACT_APP_API_BASE_URL
+});
+
 export const uploadFiles = files => {
   const form = new FormData();
   files.forEach(f => form.append('files', f));
