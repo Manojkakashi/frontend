@@ -7,5 +7,6 @@ const api = axios.create({
 export const uploadFiles = files => {
   const form = new FormData();
   files.forEach(f => form.append('files', f));
-  return api.post('/upload', form);
+  // ← note the “/api” prefix here
+  return api.post('/api/upload', form);
 };
