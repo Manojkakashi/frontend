@@ -24,11 +24,15 @@ export default function UploadPage() {
     }
   };
 
-  const showPreview = useCallback(async (endpoint) => {
-    const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}${endpoint}`);
-    const text = await res.text();
-    setPreview(text.split('\n').slice(0, 10).join('\n'));
-  }, []);
+const showPreview = useCallback(async (endpoint) => {
+  // endpoint already starts with "/api/…"
+  const url = `${process.env.REACT_APP_API_BASE_URL}${endpoint}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const text = await res.text();
+  setPreview(text.split('\n').slice(0, 10).join('\n'));
+}, []);
+
 
   return (
     <div className="card max-w-lg w-full">
