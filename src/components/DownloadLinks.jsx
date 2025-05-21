@@ -1,21 +1,28 @@
+// src/components/DownloadLinks.jsx
+
 import React from 'react';
 import { ArrowDownTrayIcon } from '@heroicons/react/24/solid';
 
 export default function DownloadLinks({ endpoints }) {
+  // Base URL from .env – should be your Railway domain, e.g. "https://xxx.up.railway.app"
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   const handleDownload = async (endpoint, filename) => {
     try {
-      const url = `${process.env.REACT_APP_API_BASE_URL}${endpoint}`;
+      // endpoint is expected to start with "/api/…"
+      const url = `${BASE_URL}${endpoint}`;
       const res = await fetch(url);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const blob = await res.blob();
 
+      // Create temporary link to trigger download
       const dlUrl = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = dlUrl;
       a.download = filename;
       document.body.appendChild(a);
       a.click();
-      a.remove();
+      document.body.removeChild(a);
       window.URL.revokeObjectURL(dlUrl);
     } catch (err) {
       alert('Download failed: ' + err.message);
@@ -34,6 +41,7 @@ export default function DownloadLinks({ endpoints }) {
         <ArrowDownTrayIcon className="w-5 h-5" />
         Download Smart JSONL
       </button>
+
       <button
         className={btnClasses}
         onClick={() => handleDownload(endpoints.finetune, 'finetune_data.jsonl')}
