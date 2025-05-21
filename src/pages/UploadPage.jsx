@@ -25,7 +25,7 @@ export default function UploadPage() {
   };
 
   const showPreview = useCallback(async (endpoint) => {
-    const res = await fetch(`http://localhost:4000${endpoint}`);
+    const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}${endpoint}`);
     const text = await res.text();
     setPreview(text.split('\n').slice(0, 10).join('\n'));
   }, []);
