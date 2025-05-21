@@ -4,7 +4,7 @@ import { ArrowDownTrayIcon } from '@heroicons/react/24/solid';
 export default function DownloadLinks({ endpoints }) {
   const handleDownload = async (endpoint, filename) => {
     try {
-      const url = `http://localhost:4000${endpoint}`;
+      const url = `${process.env.REACT_APP_API_BASE_URL}${endpoint}`;
       const res = await fetch(url);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const blob = await res.blob();
